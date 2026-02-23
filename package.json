@@ -1,0 +1,19 @@
+{
+  "name": "enablebanking-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Enable Banking API (OP, Aktia, and other Finnish banks)",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test-auth": "node test-auth.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.10.2",
+    "dotenv": "^16.4.7",
+    "jose": "^5.10.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

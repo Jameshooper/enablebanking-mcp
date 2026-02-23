@@ -1,0 +1,10 @@
+node_modules/
+
+# Credentials — never commit these
+.env
+*.pem
+*.key
+*.p12
+
+# Local session store — contains live bank session tokens
+sessions.json
