@@ -20,7 +20,7 @@
  */
 
 import { importPKCS8, SignJWT } from "jose";
-import { readFileSync, writeFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, chmodSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import { createInterface } from "readline";
@@ -79,7 +79,9 @@ function loadSessions() {
 }
 
 function saveSessions(sessions) {
-  writeFileSync(SESSIONS_FILE, JSON.stringify(sessions, null, 2));
+  // 0o600: session tokens should be readable only by the owner
+  writeFileSync(SESSIONS_FILE, JSON.stringify(sessions, null, 2), { mode: 0o600 });
+  chmodSync(SESSIONS_FILE, 0o600);
 }
 
 // ---------------------------------------------------------------------------

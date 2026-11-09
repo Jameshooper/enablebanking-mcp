@@ -5,7 +5,7 @@ import {
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { importPKCS8, SignJWT } from "jose";
-import { readFileSync, writeFileSync, existsSync } from "fs";
+import { readFileSync, writeFileSync, existsSync, chmodSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
@@ -90,7 +90,9 @@ function loadSessions() {
 }
 
 function saveSessions(sessions) {
-  writeFileSync(SESSIONS_FILE, JSON.stringify(sessions, null, 2));
+  // 0o600: session tokens should be readable only by the owner
+  writeFileSync(SESSIONS_FILE, JSON.stringify(sessions, null, 2), { mode: 0o600 });
+  chmodSync(SESSIONS_FILE, 0o600);
 }
 
 function sessionSummary(session) {
@@ -350,7 +352,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             try {
               const data = await apiRequest(
                 "GET",
-                `/accounts/${account.uid}/balances`
+                `/accounts/${encodeURIComponent(account.uid)}/balances`
               );
               const balances = (data.balances || [])
                 .map((b) => {
@@ -391,7 +393,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
           const data = await apiRequest(
             "GET",
-            `/accounts/${account_id}/transactions?${params}`
+            `/accounts/${encodeURIComponent(account_id)}/transactions?${params}`
           );
 
           const txns = data.transactions || data.booked || [];

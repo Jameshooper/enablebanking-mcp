@@ -22,7 +22,7 @@ Supported accounts: **OP** (checking/savings) and **Aktia Finnair Visa** (credit
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/jessemccrosky/enablebanking-mcp
+git clone https://github.com/jmccrosky/enablebanking-mcp
 cd enablebanking-mcp
 npm install
 ```
